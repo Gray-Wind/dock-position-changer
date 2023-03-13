@@ -5,7 +5,6 @@
 -- https://apple.stackexchange.com/questions/333556/how-do-i-trigger-a-script-when-a-second-monitor-is-attached
 
 property displayCount : missing value
-property tempDisplayCount : missing value
 
 repeat
 	countDisplays()

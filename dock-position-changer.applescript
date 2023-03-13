@@ -7,42 +7,38 @@
 property displayCount : missing value
 property tempDisplayCount : missing value
 
-countDisplays()
-
 repeat
-	repeat until displayCount is greater than 1
-		countDisplays()
-	end repeat
-	displayConnected()
 	countDisplays()
-	copy displayCount to tempDisplayCount
-	repeat until tempDisplayCount is not equal to displayCount
-		countDisplays()
-	end repeat
-	copy displayCount to tempDisplayCount
-	if tempDisplayCount is greater than displayCount then
-		displayConnected()
-	else if tempDisplayCount is equal to displayCount then
-		displayDisconnected()
+	if displayCount is equal to 1 and isDockInBottom() is equal to true then
+		moveDockToLeft()
 	end if
+	if displayCount is greater than 1 and isDockInBottom() is equal to false then
+		moveDockToBottom()
+	end if
+	delay 5 -- How Often To Check How Many Connected Monitors.. In Seconds
 end repeat
 
-on displayConnected()
+on moveDockToBottom()
 	tell application "System Events" to tell dock preferences
 		set screen edge to bottom
 	end tell
-end displayConnected
+end moveDockToBottom
 
-on displayDisconnected()
+on moveDockToLeft()
 	tell application "System Events" to tell dock preferences
 		set screen edge to left
 	end tell
-end displayDisconnected
+end moveDockToLeft
 
 on countDisplays()
 	tell application "Image Events"
 		set theDisplays to count of displays
 	end tell
 	set displayCount to theDisplays
-	delay 5 -- How Often To Check How Many Connected Monitors.. In Seconds
 end countDisplays
+
+on isDockInBottom()
+	tell application "System Events" to tell dock preferences
+		return screen edge is bottom
+	end tell
+end isDockInBottom
